@@ -1,0 +1,150 @@
+<template name="add_website">
+    <div class='main-content-content clearfix'>
+        <div class='center-container add_website clearfix'>
+            <header class='center_header'>
+                <h1>Add new website</h1>
+            </header>
+        </div>
+        <div class="add_new_website_form">
+        {{#if errors}}
+        {{#each errors}}
+            <div class="ui red message">{{this}}</div>
+        {{/each}}
+
+        {{/if}}
+            <div class="ui form">
+                <form id="add-form">
+                    <div class="field">
+                        <label>
+                            Enter your website address:
+                        </label>
+                        <input type="text" name="webUrl" id="webUrl">
+                    </div>
+                    <div class="ui segment">
+                        <div class="field">
+                            <label>Visit Duration</label>
+                            <div id="minutes-slider"></div>
+                            <div class="ui horizontal segments">
+                                <div class="ui segment">
+                                    <div class="ui statistic">
+                                        <div class="value">
+                                            <div id="minutes-slider-value"></div>
+                                        </div>
+                                        <div class="label">
+                                            Seconds
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ui segment">
+                                    <div class="ui statistic">
+                                        <div class="value">
+                                            <div id="hitmins"></div>
+                                        </div>
+                                        <div class="label">
+                                            Hits
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui dividing header">Traffic Source</div>
+                    <div class="two fields">
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="tesource" value="direct" tabindex="0" checked>
+                                <label>Direct</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="tesource" value="custom" tabindex="0">
+                                <label>Custom</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui segment">
+                        <div class="two fields">
+                            <div class="field">
+                                <input type="text" name="customurl" placeholder="Custom Url" id="customUrl">
+                            </div>
+                            <div class="field">
+                                <select name="customselect" id="customselect" class="ui search dropdown">
+                                    <option value="">Quick Fill</option>
+                                    <option value="google">http://google.com</option>
+                                    <option value="facebook">http://facebook.com</option>
+                                    <option value="youtube">http://youtube.com</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="ui dividing">Advanced Settings</h4>
+                    <div class="ui center aligned segment">
+                        <div class="field">
+                            <label>Hourly Limit</label>
+                            <div id="hourly-limit"></div>
+                            <div class="ui statistic">
+                                <div class="value">
+                                    <div id="hourly-limit-display"></div>
+                                </div>
+                                <div class="label">
+                                    Hits/hour
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui segment">
+                        <div class="field">
+                            <label>
+                                Total Limit
+                            </label>
+
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="totalLimit" value="unlimit" id="unlimitedhits">
+                                <label>Send as many Hits as can</label>
+                            </div>
+                        </div>
+                          <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="totalLimit" value="limit" id="limithits">
+                                <label>Limit hits to: </label>
+
+                            </div>
+                        </div>
+                        <div class="field disabled" id="totalLimitInput">
+                            <input type="number" name="hitlimit" placeholder="Enter a number">
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field"><div class="ui blue button" id="submit">Submit</div></div>
+                        <div class="field"><div class="ui button" id="cancel">Cancel</div></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="main_footer clearfix">
+        <div class='container clearfix'>
+            <div class='links clearfix'>
+                <ul class='about'>
+                    <li><a href="/about">About us</a></li>
+                    <li><a href="/terms">Terms of service</a></li>
+                </ul>
+                <ul class='social'>
+                    <li>
+                        <a title="Twitter" target="_blank" href="https://twitter.com/hitlol"><span class='icon twitter'></span>
+</a></li>
+                    <li>
+                        <a title="Facebook" target="_blank" href="https://www.facebook.com/hitlol"><span class='icon facebook'></span>
+</a></li>
+                    <li>
+                        <a title="Google+" target="_blank" href="https://plus.google.com/+Hitlol"><span class='icon google'></span>
+</a></li>
+                </ul>
+            </div>
+            <div class='copyright clearfix'>&copy; 2016 HitLeap Ltd</div>
+        </div>
+    </footer>
+</template>
