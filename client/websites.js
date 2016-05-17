@@ -7,12 +7,21 @@ import { Meteor } from 'meteor/meteor';
 // import {FlowRouter} from 'meteor/kadira:flow-router';
 import './main.html';
 
+Template.websites.onCreated(function(){
+  document.title = "My Websites";
+});
+
 Template.websites.helpers({
   mySites: function(){
     return Website.find({user_id: Meteor.userId()}).fetch();
     // return Meteor.call('mySites');
   },
-  isPaused: function (status) {
+  isPaused: function (status,review) {
+    if(review == "reviewing"){
+      return "Reviewing";
+    }else if(review == "remove"){
+      return "Disqualified";
+    }
     if(status == "0"){
       return "pause";
     }else{
@@ -42,7 +51,7 @@ Template.websites.events({
     console.log(e.target.parentElement.getAttribute('data-id'));
     Meteor.call("editSite", id, action,function(err,result){
           if(err){
-            console.log(err);
+            throw new Meteor.Error(404,err.reason);
           }
           console.log(result)
         });

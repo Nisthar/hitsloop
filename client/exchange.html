@@ -1,10 +1,38 @@
 <template name="exchange"> 
+   <div class='main-content'>
+        <div class='container'>
+            <noscript>
+                <div class='main-content-content clearfix'>
+                    <div class='message_container clearfix error'>
+                        <div class='message_toggle'>
+                            <h3>
+<span class='icon'></span>
+JavaScript is disabled in your browser.
+Please enable JavaScript to use HitLeap.
+</h3>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
+
+
+            <header class='main_content_header'>
+                <h1>Earn Traffic</h1>
+            </header>
+            <div class='main-content-content clearfix'>
+                <div class='row_100 first clearfix'>
+                {{>isVerified}}
+
 <div class="ui segment">
-<h4 class="header">Earn Traffic</h4>
 <div class="content">
-  <img src="http://youliketraffic.com/members/img/loading.gif" alt="Traffic Loading">
-  <div id="seconds"></div>
-  <div class="ui primary button" id="startExchange">Start Earning Traffic</div>
+  <img id="exchangeloadingimg" src="/images/66.gif" alt="Traffic Loading" style="width:225px; margin:auto; display:none;">
+  <div id="seconds" style="margin:auto; display:block; text-align:center; margin-top:20px; margin-bottom:20px;"></div>
+  <button class="ui circular primary button" id="startExchange" style="margin:auto; display:block; width:360px; height:100px;">Start Earning Traffic</button>
+   <div class="ui red segment" id="stopExchange" style="margin:auto; display:none; width:360px; height:100px;">Close the popup window to stop</div>
+  </div>
+  </div>
+  </div>
+  </div>
   </div>
   </div>
 </template>

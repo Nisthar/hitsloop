@@ -1,7 +1,39 @@
-<template name="main">
+<template name="isVerified">
+{{#unless currentUser.emails.[0].verified}}
+    <div class="ui message warning">You need to verify your email address before using Hitsloop. <a href="#" id="resend-verification-link">Resend verification link</a>.</div>
+
+  {{/unless}}
+</template>
+<template name="editor">
+            <div class="field">
+                            <input type="text" name="title" placeholder="Enter title for your post" id="postTitle">
+            </div>
+  <div class="field">
+    {{> froalaReactive getFEContext}}
+  </div>
+   <div class="field">
+                            <button type="button" id="postSubmit" class="ui positive button fluid">Post</button>
+                        </div>
+</template>
+    <template name="recentPurchases">
+    {{#if recentPurchases}}
+        <div class="ui icon message success">
+        <i class="ui icon usd"> </i>
+        <div class="content">
+            <div class="header">
+                Recent Purchases
+            </div>
+
+               {{recentPurchases.username}} has purchased {{recentPurchases.description}} of ${{recentPurchases.type}} {{fromNow recentPurchases.startedAt}}
+               <a href="/buy" title="Buy" class="ui primary button" style="float:right;">Buy</a>
+            </div>
+        </div>
+    {{/if}}
+    </template>
+  <template name="main">
 
     <head>
-        <title>Hitlol</title>
+        <title>HitsLooop</title>
     </head>
 
     <body>
@@ -12,21 +44,22 @@
 <template name="navbar">
     <div class="ui stackable top fixed borderless menu" style="height:52px !important;">
         <div class="item">
-            <a href="/" title="HackThrone" class="ui tiny image"><img src="" alt="Hitlol favicon"></a>
+            <a href="/" title="HackThrone" class="ui tiny image"><img src="/images/hitsloop.png" alt="Hitlol favicon"></a>
         </div>
 
         {{#if currentUser}}
         <div class="right menu">
-            <div class="item"><a href="/add">Add my website</a></div>
-            <div class="item"><a href="/profile">My Account</a></div>
+            <!--<div class="item"><a href="/add">Add my website</a></div>-->
+            <div class="item"><a href="#" id="logoutBtn">Logout</a></div>
         </div>
         {{else}}
         <div class="right menu">
-            <div class="item"><a href="/login">Login</a></div>
-            <div class="item"><a href="/register">Register</a></div>
+            <div class="item"><i class="icon user"></i> <a href="/login">Login</a></div>
+            <div class="item"><i class="icon signup"></i> <a href="/register">Register</a></div>
         </div>
         {{/if}}
     </div>
+    {{#if currentUser}}
     <nav class='main_nav'>
         <div class='container clearfix'>
             <ul>
@@ -40,12 +73,13 @@
             </ul>
         </div>
     </nav>
+ {{/if}}
 
 </template>
 
 <template name="register">
     <div class="register-container">
-        <div class="login-banner"><img class="login-logo" src="/images/ybs.png" alt="YBS"></div>
+        <div class="login-banner"><img class="login-logo" src="/images/hitsloop.png" alt="Hitsloop"></div>
 
         <div class="login-form">
             {{#if errors}}
@@ -56,16 +90,25 @@
 
             <form class="ui form">
                 <div class="field">
-                    <input type="text" name="registerUsername">
+                  <!-- <div class="ui left icon input"> -->
+                    <input type="text" name="registerUsername" placeholder="Username">
+                    <!-- <i class="icon user"></i> -->
+                    <!-- </div> -->
                 </div>
                 <div class="field">
-                    <input type="text" name="registerEmail">
+                    <input type="email" name="registerEmail" placeholder="Email">
                 </div>
                 <div class="field">
-                    <input type="password" name="registerPassword">
+                  <!-- <div class="ui left icon input"> -->
+                    <input type="password" name="registerPassword" placeholder="Password">
+                      <!-- <i class="icon lock"></i> -->
+                  <!-- </div> -->
                 </div>
                 <div class="field">
-                    <input type="password" name="registerConfirm">
+                  <!-- <div class="ui left icon input"> -->
+                    <input type="password" name="registerConfirm" placeholder="Confirm Password">
+                    <!-- <i class="icon lock"></i> -->
+                <!-- </div> -->
                 </div>
                 <div class="field" style="  float: right; ">
                     <input type="submit" value="Register" class="ui primary button">
@@ -77,7 +120,7 @@
 <template name="login">
 
     <div class="login-container">
-        <div class="login-banner"><img class="login-logo" src="/images/ybs.png" alt="YBS"></div>
+        <div class="login-banner"><img class="login-logo" src="/images/hitsloop.png" alt="Hitsloop"></div>
 
         <div class="login-form">
           {{#if loginErrors}}
@@ -87,10 +130,16 @@
           {{/if}}
             <form class="ui form">
                 <div class="field">
-                    <input type="text" name="loginId" id="loginId">
+                    <!-- <div class="ui left icon input"> -->
+                    <input type="text" name="loginId" id="loginId" placeholder="Username / Email">
+                    <!-- <i class="icon user"></i> -->
+                  <!-- </div> -->
                 </div>
                 <div class="field">
-                    <input type="password" name="loginPassword" id="loginPassword">
+                    <!-- <div class="ui left icon input"> -->
+                    <input type="password" name="loginPassword" id="loginPassword" placeholder="Password">
+                    <!-- <i class="icon lock"></i> -->
+                  <!-- </div> -->
                 </div>
                 <div class="field" style="  float: right; ">
                     <input type="submit" value="Login" class="ui primary button">
@@ -101,204 +150,7 @@
 </template>
 
 
-<template name="account">
-    <!--
-    <header class='main_header'>
-<div class='container clearfix'>
-<div class='logo'>
-<a href="/">Hitlol</a>
-</div>
-<a class="collapse_trigger" id="collapse_trigger" href="#">Show menu</a>
-<ul class='top_menu'>
-<li>
-<span class='title'>Minutes:</span>
-<span class='value'>0</span>
-</li>
-<li class='dropdown'>
-<a class="dropdown-toggle" data-toggle="dropdown" href="#">nihal007k
-<span class='icon'></span>
-</a><ul class='dropdown-menu'>
-<li class='icon up account'></li>
-<li><a href="/stats">Account</a></li>
-<li class='divider'></li>
-<li><a rel="nofollow" data-method="post" href="/log-out">Log Out</a></li>
-</ul>
-</li>
-<li>
-<a class="nav-button" href="/premium">Upgrade Account</a>
-</li>
-</ul>
-</div>
-</header>-->
 
-
-    <div class='main-content'>
-        <div class='container'>
-            <noscript>
-                <div class='main-content-content clearfix'>
-                    <div class='message_container clearfix error'>
-                        <div class='message_toggle'>
-                            <h3>
-<span class='icon'></span>
-JavaScript is disabled in your browser.
-Please enable JavaScript to use HitLeap.
-</h3>
-                        </div>
-                    </div>
-                </div>
-            </noscript>
-
-
-            <header class='main_content_header'>
-                <h1>Account</h1>
-            </header>
-            <div class='main-content-content clearfix'>
-                <div class='row_100 first clearfix'>
-                    <div class='row_33 box left stats'>
-                        <ul class='blue_list'>
-                            <li class='first'>
-                                <span class='value'>0</span>
-                                <span class='title'>Minutes</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class='row_33 box account'>
-                        <h3>
-Account Type
-</h3>
-                        <ul class='white_list'>
-                            <li class='current_account'>
-                                {{#if isEqual currentUser.profile.accountType "free"}}
-                                <span class='value'><a href="/premium">Regular</a></span>
-                                {{else}}
-                                <span class='value'><a href="#">Premium</a></span>
-                                {{/if}}
-                            </li>
-                        </ul>
-                        {{#if isEqual currentUser.profile.accountType "free"}}
-                        <a class="button small" href="/premium">Upgrade</a>
-                        {{/if}}
-                    </div>
-                    <div class='row_33 box account'>
-                        <h3>Profile settings</h3>
-                        <ul class='white_list'>
-                            <li>
-                                <span class='title'>Username:</span>
-                                <span class='value'>{{ currentUser.username }}</span>
-                            </li>
-                            <li>
-                                <span class='title'>E-Mail:</span>
-                                <span class='value'>
-<a href="#">{{ currentUser.emails.[0].address }}</a>
-
-                                </span>
-                            </li>
-                            <li>
-                                <span class='title'>Password:</span>
-                                <span class='value'>
-
-                                </span>
-                            </li>
-                            <li>
-                                <span class='title'>E-mail notifications:</span>
-                                <span class='value'>
-
-                                </span>
-                            </li>
-                        </ul>
-
-
-                    </div>
-                </div>
-                <div class='row_100 clearfix'>
-                    <div class='row_50 graph left'>
-                        <h2>
-Hits received
-<span>Real-time</span>
-</h2>
-                        <div class='chart' data-title='Hits' id='chart_hits'></div>
-                        <a class="button medium arrow" href="/websites">My websites</a>
-                    </div>
-                    <div class='row_50 graph'>
-                        <h2>
-Minutes earned
-<span>Real-time</span>
-</h2>
-                        <div class='chart' data-title='Minutes' id='chart_minutes'></div>
-                        <a class="button medium arrow" href="/traffic-exchange">Earn traffic</a>
-                    </div>
-                </div>
-                <div class='row_100 clearfix'>
-                    <h2>Active subscriptions</h2>
-                    <div class='table_container'>
-                        <p>You don't have any active subscriptions.</p>
-                    </div>
-
-                </div>
-                <div class='row_100 clearfix'>
-                    <h2>Payments</h2>
-                    <div class='table_container'>
-                        <p>You haven't made any payments yet.</p>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class='modal' id='modal-cancel-subscription'>
-                <div class='modal-dialog'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>Close</button>
-                            <h2 class='modal-title'>Cancel subscription</h2>
-                        </div>
-                        <div class='modal-body'>
-                            <div id='are-you-sure-section'>
-                                <p>Are you sure you want to cancel this subscription?</p>
-                                <p id='package-title'></p>
-                                <button class='button' id='cancel-subscription'>Cancel subscription</button>
-                            </div>
-                            <div id='cancelling-in-progress-section' style='display: none;'>
-                                <p>
-                                    Your subscription is being cancelled. Please wait...
-                                </p>
-                            </div>
-                            <div id='error-when-cancelling-section' style='display: none;'>
-                                <p>An error occurred while cancelling your subscription.</p>
-                                <p>Please try again or contact us.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <footer class="main_footer clearfix">
-        <div class='container clearfix'>
-            <div class='links clearfix'>
-                <ul class='about'>
-                    <li><a href="/about">About us</a></li>
-                    <li><a href="/terms">Terms of service</a></li>
-                </ul>
-                <ul class='social'>
-                    <li>
-                        <a title="Twitter" target="_blank" href="https://twitter.com/hitleap"><span class='icon twitter'></span>
-</a></li>
-                    <li>
-                        <a title="Facebook" target="_blank" href="https://www.facebook.com/hitleap"><span class='icon facebook'></span>
-</a></li>
-                    <li>
-                        <a title="Google+" target="_blank" href="https://plus.google.com/+Hitleap-Traffic-Exchange"><span class='icon google'></span>
-</a></li>
-                </ul>
-            </div>
-            <div class='copyright clearfix'>&copy; 2016 Hitlol Ltd</div>
-        </div>
-    </footer>
-
-
-</template>
 
 <template name="websites">
     <div class='main-content'>
@@ -339,13 +191,13 @@ Please enable JavaScript to use HitLeap.
                                     <span class='big'>3</span>
                                     <span class='small'>/ 3</span>
                                 </li>
-                                <li><a class="button" data-target="#buy-modal" data-toggle="modal" href="#">Buy more</a></li>
+                                <li><a class="button" href="/buy">Buy more</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class='row_100 clearfix'>
-                   
+
                     <div class='table_container'>
                         <table class='table websites'>
                             <thead>
@@ -424,7 +276,7 @@ Please enable JavaScript to use HitLeap.
 </a>
                                             </li>
                                             <li class='status'>
-                                                {{isPaused mySite.active}}ed
+                                                {{isPaused mySite.active  mySite.status}}
 
                                             </li>
                                         </ul>
@@ -466,7 +318,7 @@ Please enable JavaScript to use HitLeap.
                                     <td>
                                         <span class='controls'>
 <!-- <a class='clone' data-no-slots-title='No slots available' data-tooltip-color='#16a6d4' title='Clone'>
-<span class='icon'></span> 
+<span class='icon'></span>
                                          </a> -->
                                         <a class='{{isPausedNot mySite.active}} pauseplay' data-tooltip-color='#16a6d4' title='Start' data-id="{{mySite._id}}" data-action="{{isPausedNot mySite.active}}">
                                             <span class='icon'></span>
@@ -520,318 +372,8 @@ Modify Bounce Rate
                     </div>
                 </div>
                 <div class='row_100 clearfix'></div>
-                <div class='modal' id='modal-duration'>
-                    <div class='modal-dialog'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>Close</button>
-                                <h2 class='modal-title'>Configure Visit Duration</h2>
-                            </div>
-                            <div class='modal-body'>
-                                <div class='modal-form add_website clearfix'>
-                                    <form class="clearfix" action="#" accept-charset="UTF-8" data-remote="true" method="post">
-                                        <input name="utf8" type="hidden" value="&#x2713;" />
-                                        <input type="hidden" name="websites" />
-                                        <div class='wrap-input'>
-                                            <label class='label'>
-                                                Visit Duration
-                                                <span title="Specify the length of the visit" class="icon icon-quest"></span>
-                                            </label>
-                                            <ul class='buy_duration_select'>
-                                                <li data-buy-duration='same'>Same duration</li>
-                                                <li data-buy-duration='random'>Random duration</li>
-                                            </ul>
-                                            <div class='noUiSlider-wrap'>
-                                                <input class='accepted_timers' name='accepted_timers' type='hidden'>
-                                                <input class='hide' name='same[minimum_timer]'>
-                                                <input class='hide' name='random[minimum_timer]'>
-                                                <input class='hide' name='random[maximum_timer]'>
-                                                <div class='noUiSlider-container' id='same'>
-                                                    <div class='noUiSlider same'></div>
-                                                </div>
-                                                <div class='noUiSlider-container' id='random'>
-                                                    <div class='noUiSlider random'></div>
-                                                </div>
-                                            </div>
 
-                                            <table class='table buy_minutes' style='margin-bottom: 15px;'>
-                                                <tbody>
-                                                    <tr data-minutes='10000'>
-                                                        <td>
-                                                            <div class='light'><span class='color'>10,000</span>Minutes</div>
-                                                        </td>
-                                                        <td><span class='icon'></span></td>
-                                                        <td>
-                                                            <div class='light'><span class='color'>30,000</span>Hits</div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <span class='input-error'>Required field</span>
-                                        </div>
-
-                                        <button name="button" type="submit" class="button">Save</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='modal' id='modal-hourly'>
-                    <div class='modal-dialog'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>Close</button>
-                                <h2 class='modal-title'>Configure Hourly Limit</h2>
-                            </div>
-                            <div class='modal-body'>
-                                <div class='modal-form add_website clearfix'>
-                                    <form class="clearfix" action="#" accept-charset="UTF-8" data-remote="true" method="post">
-                                        <input name="utf8" type="hidden" value="&#x2713;" />
-                                        <input type="hidden" name="websites" />
-                                        <div class='wrap-input'>
-                                            <label class='label'>
-                                                Hourly Limit
-                                                <span title="Specify the maximum number of hits that may be sent to the website in one hour" class="icon icon-quest"></span>
-                                            </label>
-                                            <input class='hide' name='website[hourly_limit]'>
-                                            <div class='noUiSlider-wrap'>
-                                                <div class='noUiSlider-container'>
-                                                    <div class='noUiSlider hourly'></div>
-                                                </div>
-                                            </div>
-                                            <span class='input-error'>Required field</span>
-                                        </div>
-
-                                        <button name="button" type="submit" class="button">Save</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='modal' id='modal-source'>
-                    <div class='modal-dialog'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>Close</button>
-                                <h2 class='modal-title'>Configure Traffic Source</h2>
-                            </div>
-                            <div class='modal-body'>
-                                <div class='modal-form add_website clearfix'>
-                                    <form class="clearfix" action="#" accept-charset="UTF-8" data-remote="true" method="post">
-                                        <input name="utf8" type="hidden" value="&#x2713;" />
-                                        <input type="hidden" name="websites" />
-                                        <div class='wrap-input'>
-                                            <label class="label" for="referrer__empty_">Traffic Source
-                                                <span title="Choose the Traffic Source. This will show up as the origin of the traffic." class="icon icon-quest"></span>
-                                            </label>
-                                            <div class='row_100 box first clearfix'>
-                                                <div class='line warnings'>
-                                                    <div class='referrer_warning hide' id='custom'>Custom Traffic Source is only available for <a href="/premium">Premium</a>                                                        members.</div>
-                                                </div>
-                                                <div class='line line-empty'>
-                                                    <input type="radio" name="referrer" id="referrer__empty_" value="&lt;empty&gt;" class="radio" />
-                                                    <label class="radio" for="referrer__empty_">Direct / Anonymous
-                                                    </label>
-                                                </div>
-                                                <div class='line line-custom'>
-                                                    <input type="radio" name="referrer" id="referrer__custom_" value="&lt;custom&gt;" class="radio" />
-                                                    <label class="radio" for="referrer__custom_">Custom URL
-                                                    </label>
-                                                    <div class='wrap-input'>
-                                                        <input type="text" name="referrer_custom_url" id="referrer_custom_url" class="small" placeholder="Custom URL" />
-                                                        <select class='select small'>
-                                                            <option value=''>Quick fill</option>
-                                                            <option value='http://google.com'>http://google.com</option>
-                                                            <option value='http://facebook.com'>http://facebook.com</option>
-                                                            <option value='http://twitter.com'>http://twitter.com</option>
-                                                            <option value='http://youtube.com'>http://youtube.com</option>
-                                                            <option value='http://pinterest.com'>http://pinterest.com</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class='input-error'>Required field</span>
-                                        </div>
-
-                                        <button name="button" type="submit" class="button">Save</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='modal' id='modal-hits'>
-                    <div class='modal-dialog'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>Close</button>
-                                <h2 class='modal-title'>Configure Total Hits Limit</h2>
-                            </div>
-                            <div class='modal-body'>
-                                <div class='modal-form add_website clearfix'>
-                                    <form class="clearfix" action="#" accept-charset="UTF-8" data-remote="true" method="post">
-                                        <input name="utf8" type="hidden" value="&#x2713;" />
-                                        <input type="hidden" name="websites" />
-                                        <div class='wrap-input'>
-                                            <label class="label" for="total_hits_limit_0">Total Limit
-                                                <span title="How many hits would you like your website to receive in total?" class="icon icon-quest"></span>
-                                            </label>
-                                            <div class='row_100 box first clearfix'>
-                                                <div class='line'>
-                                                    <input type="radio" name="total_hits_limit" id="total_hits_limit_0" value="0" class="radio" />
-                                                    <label class="radio" for="total_hits_limit_0">Send as many hits as possible, as longs as I have Minutes.
-                                                    </label>
-                                                </div>
-                                                <div class='line'>
-                                                    <input type="radio" name="total_hits_limit" id="total_hits_limit_1" value="1" class="radio" />
-                                                    <label class="radio" for="total_hits_limit_1">Stop traffic after a specific number of total hits.
-                                                    </label>
-                                                    <div class='wrap-input'>
-                                                        <input type="text" name="total_hits_limit_number" id="total_hits_limit_number" class="small hits" placeholder="Enter number of hits"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <span class='input-error'>Required field</span>
-                                            </div>
-                                        </div>
-
-                                        <button name="button" type="submit" class="button">Save</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class='modal' id='modal-bounce-rate'>
-                    <div class='modal-dialog'>
-                        <div class='modal-content'>
-                            <div class='modal-header'>
-                                <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>Close</button>
-                                <h2 class='modal-title'>Configure Bounce Rate</h2>
-                            </div>
-                            <div class='modal-body'>
-                                <div class='modal-form add_website clearfix'>
-                                    <form class="clearfix" action="#" accept-charset="UTF-8" data-remote="true" method="post">
-                                        <input name="utf8" type="hidden" value="&#x2713;" />
-                                        <input type="hidden" name="websites" />
-                                        <div class='wrap-input bounce-rate-container'>
-                                            <label class='label'>
-                                                Bounce Rate
-                                                <span title="Specify Bounce Rate" class="icon icon-quest"></span>
-                                            </label>
-                                            <input class='hide' name='website[bounce_rate]'>
-                                            <div class='row_100 box first clearfix'>
-                                                <div class='line warnings'>
-                                                    <div class='bounce-rate-warning hide'>
-                                                        Custom Bounce Rate is only available for <a href="/premium">Premium</a>                                                        members.
-                                                    </div>
-                                                </div>
-                                                <div class='noUiSlider-wrap'>
-                                                    <div class='noUiSlider-container'>
-                                                        <div class='noUiSlider bounce-rate'></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class='input-error'>
-Required field
-</span>
-                                        </div>
-
-                                        <button name="button" type="submit" class="button">Save</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class='modal' id='buy-modal'>
-                <div class='modal-dialog'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <button aria-hidden='true' class='close' data-dismiss='modal' type='button'>Close</button>
-                            <h2 class='modal-title'>
-Buy Extra Website Slots
-</h2>
-                        </div>
-                        <div class='modal-body'>
-                            <div class='modal-form buy-slots clearfix'>
-                                <div class='table_container'>
-                                    <table class='table buy_slots'>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class='light'><span class='color'>10</span>extra slots
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class='color'>
-EUR 4
-</span>
-                                                </td>
-                                                <td style='text-align: right'>
-                                                    <a class="button medium" href="/checkout/preview/f4faa6254f67cd125591f7c7eba8dbf6">Buy</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class='light'><span class='color'>25</span>extra slots
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class='color'>
-EUR 8
-</span>
-                                                </td>
-                                                <td style='text-align: right'>
-                                                    <a class="button medium" href="/checkout/preview/1656be2f29b5ea135320ee873e554a3d">Buy</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class='light'><span class='color'>50</span>extra slots
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class='color'>
-EUR 12
-</span>
-                                                </td>
-                                                <td style='text-align: right'>
-                                                    <a class="button medium" href="/checkout/preview/be8203b5a8d41e6b8b16492e9bba169f">Buy</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class='light'><span class='color'>100</span>extra slots
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class='color'>
-EUR 22
-</span>
-                                                </td>
-                                                <td style='text-align: right'>
-                                                    <a class="button medium" href="/checkout/preview/ac28ea44e55677731cd02d82252d9709">Buy</a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
     </div>
 
@@ -844,17 +386,17 @@ EUR 22
                 </ul>
                 <ul class='social'>
                     <li>
-                        <a title="Twitter" target="_blank" href="https://twitter.com/hitlol"><span class='icon twitter'></span>
+                        <a title="Twitter" target="_blank" href="https://twitter.com/Hitsloop"><span class='icon twitter'></span>
 </a></li>
                     <li>
-                        <a title="Facebook" target="_blank" href="https://www.facebook.com/hitlol"><span class='icon facebook'></span>
+                        <a title="Facebook" target="_blank" href="https://www.facebook.com/Hitsloop"><span class='icon facebook'></span>
 </a></li>
                     <li>
-                        <a title="Google+" target="_blank" href="https://plus.google.com/+Hitlol-Traffic-Exchange"><span class='icon google'></span>
+                        <a title="Google+" target="_blank" href="https://plus.google.com/+Hitsloop-Traffic-Exchange"><span class='icon google'></span>
 </a></li>
                 </ul>
             </div>
-            <div class='copyright clearfix'>&copy; 2016 Hitlol Ltd</div>
+            <div class='copyright clearfix'>&copy; 2016 Hitsloop Ltd</div>
         </div>
     </footer>
 </template>

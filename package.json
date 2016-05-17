@@ -5,11 +5,12 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "alertifyjs": "^1.6.1",
     "instamojo-nodejs": "0.0.3",
+    "markdown": "^0.5.0",
     "meteor-node-stubs": "~0.2.0",
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8",
-    "react-mounter": "^1.1.0"
+    "moment": "^2.13.0",
+    "sharer.npm.js": "0.0.10"
   },
   "version": "1.0.0",
   "main": "index.js",

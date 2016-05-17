@@ -6,10 +6,12 @@ import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 import { $ } from 'meteor/jquery';
 import {FlowRouter} from 'meteor/kadira:flow-router';
+import alertify from 'alertifyjs';
 import './add_website.html';
 
 Template.add_website.onRendered(() => {
     Session.set('addErrors', []);
+    document.title = "Add Websites";
 });
 Template.add_website.rendered = function () {
 
@@ -22,10 +24,10 @@ Template.add_website.rendered = function () {
             'max': [60]
         }
     }).on('change', function (ev, val) {
-        console.log(val);
+
         $('#minutes-slider-value').text(Math.round(val));
         let hitsForMins = val / 60 * Meteor.user().profile.minutes;
-        console.log(Math.round(hitsForMins));
+
         $('#hitmins').text(Math.round(hitsForMins));
 
     });
@@ -50,13 +52,14 @@ Template.add_website.events({
         $('#totalLimitInput').addClass('disabled');
     },
     'click #submit': (event, template) => {
-        console.log("clicked submit");
+
+        
         let requiredFields = ['webUrl', 'hitmins'];
         let errorMessages = ['Please Enter a Valid Url', 'Please choose the visit duration for your site'];
         let errors = [];
         _.each(requiredFields, function (value, key) {
-            console.log($("#" + value).prop('nodeName'));
-            console.log($("#" + value).val());
+
+
             if ($("#" + value).prop('nodeName') == "INPUT") {
                 if ($("#" + value).val() == "") {
                     errors.push(errorMessages[key]);
@@ -66,11 +69,14 @@ Template.add_website.events({
                     errors.push(errorMessages[key]);
                 }
             }
-            console.log(errorMessages[key]);
+
 
         });
         if (errors.length > 0) {
-            console.log(errors);
+           
+          alertify.error("Please check you entered all the fields");
+
+        
             Session.set('addErrors', errors);
         } else {
             let formData = {
@@ -81,16 +87,32 @@ Template.add_website.events({
 
                 visitDuration: $('#minutes-slider-value').text(),
                 status: "reviewing",
-                active: true
+                active: false
 
             };
             Meteor.call('addWebsite', formData, function (err, result) {
                 if (err) {
-                    console.log(err);
+                    alertify.alert("Error",err.reason);
                 }
                 FlowRouter.go('/websites');
             });
         }
+    },
+    'click #cancel': function(){
+        alertify.confirm("Confirm","Are you sure?", function(){ alertify.success("Redirecting to your Account"); setTimeout(function(){ FlowRouter.go('/account'); }, 3000); }, function(){ alertify.closeAll(); });
+    },
+    'click #customtesource': function(){
+        Meteor.call('isPremium', function(err,res){
+            if(err){
+                alertify.alert("Error", err.reason);
+            }
+            if(res){
+                alertify.warning("Please choose your custom url");
+            }else{
+                alertify.error("Sorry, you need to upgrade your account to use this feature");
+                $('#directtesource').click();
+            }
+        });
     }
 });
 

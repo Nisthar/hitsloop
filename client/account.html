@@ -1,0 +1,277 @@
+<template name="account">
+
+    <!--
+    <header class='main_header'>
+<div class='container clearfix'>
+<div class='logo'>
+<a href="/">Hitlol</a>
+</div>
+<a class="collapse_trigger" id="collapse_trigger" href="#">Show menu</a>
+<ul class='top_menu'>
+<li>
+<span class='title'>Minutes:</span>
+<span class='value'>0</span>
+</li>
+<li class='dropdown'>
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">nihal007k
+<span class='icon'></span>
+</a><ul class='dropdown-menu'>
+<li class='icon up account'></li>
+<li><a href="/stats">Account</a></li>
+<li class='divider'></li>
+<li><a rel="nofollow" data-method="post" href="/log-out">Log Out</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-button" href="/premium">Upgrade Account</a>
+</li>
+</ul>
+</div>
+</header>-->
+
+
+    <div class='main-content'>
+        <div class='container'>
+            <noscript>
+                <div class='main-content-content clearfix'>
+                    <div class='message_container clearfix error'>
+                        <div class='message_toggle'>
+                            <h3>
+<span class='icon'></span>
+JavaScript is disabled in your browser.
+Please enable JavaScript to use HitLeap.
+</h3>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
+
+
+            <header class='main_content_header'>
+                <h1>Account</h1>
+            </header>
+            <div class='main-content-content clearfix'>
+                <div class='row_100 first clearfix'>
+ {{>isVerified}}
+ {{>recentPurchases}}
+ {{>newRefBonus}}
+                
+                    <div class='row_33 box left stats'>
+                        <ul class='blue_list'>
+                            <li class='first'>
+                                <span class='value'>{{currentUser.profile.minutes}}</span>
+                                <span class='title'>Minutes</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class='row_33 box account'>
+                        <h3>
+Account Type
+</h3>
+                        <ul class='white_list'>
+                            <li class='current_account'>
+                                {{#if isEqual currentUser.profile.accountType "free"}}
+                                <span class='value'><a href="/buy">Regular</a></span>
+                                {{else}}
+                                <span class='value'><a href="#">Premium</a></span>
+                                {{/if}}
+                            </li>
+                        </ul>
+                        {{#if isEqual currentUser.profile.accountType "free"}}
+                        <a class="button small" href="/buy">Upgrade</a>
+                        {{/if}}
+                    </div>
+                    <div class='row_33 box account'>
+                        <h3>Profile settings</h3>
+                        <ul class='white_list'>
+                            <li>
+                                <span class='title'>Username:</span>
+                                <span class='value'>{{ currentUser.username }}</span>
+                            </li>
+                            <li>
+                                <span class='title'>E-Mail:</span>
+                                <span class='value'>
+<a href="#">{{ currentUser.emails.[0].address }}</a>
+
+                                </span>
+                            </li>
+                            <!-- <li>
+                                <span class='title'>Password:</span>
+                                <span class='value'>
+
+                                </span>
+                            </li>
+                            <li>
+                                <span class='title'>E-mail notifications:</span>
+                                <span class='value'>
+
+                                </span>
+                            </li> -->
+                        </ul>
+
+
+                    </div>
+                </div>
+                <!--<div class='row_100 clearfix'>
+                    <div class='row_50 graph left'>
+                        <h2>
+Hits received
+<span>Real-time</span>
+</h2>
+                        <div class='chart' data-title='Hits' id='chart_hits'></div>
+                        {{> highchartsHelper chartId="test" chartWidth="100%" charHeight="100%" chartObject=hitsRecieved}}
+                        <a class="button medium arrow" href="/websites">My websites</a>
+                    </div>
+                    <div class='row_50 graph'>
+                        <h2>
+Minutes earned
+<span>Real-time</span>
+</h2>
+                        <div class='chart' data-title='Minutes' id='chart_minutes'></div>
+                        <a class="button medium arrow" href="/traffic-exchange">Earn traffic</a>
+                    </div>
+                </div>-->
+                 <!-- <div class='row_100 clearfix'>
+                    <h2>Blog</h2>
+                    <div class="ui form">
+                        <form id="blogForm">
+                            <div class="field">
+                                <input type="text" id="blogHeading" placeholder="Enter a Title">
+                            </div>
+                        </form>
+                    </div>
+                </div> -->
+                 <div class='row_100 clearfix'>
+                    <h2>Blog</h2>
+                    <div class="ui disabled segment"><a href="/buy" class="ui blue ribbon label">Coming Soon. Only for Subscribers!</a> 
+                    <div class="ui form">
+                        <h3 class="ui dividing header">Post your status</h3>
+                        
+                        
+                           {{>editor}}
+                       
+                    </div>
+                </div>
+                <div class="ui red segment">
+                {{#each post in posts}}
+                    <div class="ui header">{{post.title}}</div>
+                {{/each}}
+                </div>
+
+                </div>
+                <div class='row_100 clearfix'>
+                    <h2>Active subscriptions</h2>
+                    <div class='table_container'>
+                        <table class='table referrals'>
+<thead>
+<tr>
+<th>Date</th>
+<th>Description</th>
+<th>Status</th>
+<!--<th>Cash</th>-->
+<!--<th>Came from</th>-->
+</tr>
+</thead>
+<tbody>
+    {{#if mySubs}}
+    {{#each sub in mySubs}}
+<tr>
+    <td>
+    {{fromNow sub.startedAt}}
+    </td>
+    <td>
+    {{sub.description}}
+</td>
+<td>
+    {{isSubActive sub.active}}
+</td>
+</tr>
+
+
+{{/each}}
+                        {{else}}
+                        <td colspan='5' style='text-align: center;'>
+<p>Your Subscriptions will be displayed here.</p>
+</td>
+                        
+                        {{/if}}
+</tbody>
+</table>
+                    </div>
+
+                </div>
+                <div class='row_100 clearfix'>
+                    <h2>Payments</h2>
+                    <div class='table_container'>
+                     
+<table class='table referrals'>
+<thead>
+<tr>
+<th>Date</th>
+<th>Amount</th>
+<th>Status</th>
+<!--<th>Cash</th>-->
+<!--<th>Came from</th>-->
+</tr>
+</thead>
+<tbody>
+    {{#if myPayments}}
+    {{#each payment in myPayments}}
+<tr>
+    <td>
+    {{fromNow payment.created_at}}
+    </td>
+    <td>
+    {{payment.amount}}
+</td>
+<td>
+    {{payment.status}}
+</td>
+</tr>
+
+
+{{/each}}
+                        {{else}}
+                        <td colspan='5' style='text-align: center;'>
+<p>Your Payments will be displayed here.</p>
+</td>
+                        
+                        {{/if}}
+</tbody>
+</table>
+               
+                    </div>
+
+
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+    <footer class="main_footer clearfix">
+        <div class='container clearfix'>
+            <div class='links clearfix'>
+                <ul class='about'>
+                    <li><a href="/about">About us</a></li>
+                    <li><a href="/terms">Terms of service</a></li>
+                </ul>
+                <ul class='social'>
+                    <li>
+                        <a title="Twitter" target="_blank" href="https://twitter.com/Hitsloop"><span class='icon twitter'></span>
+</a></li>
+                    <li>
+                        <a title="Facebook" target="_blank" href="https://www.facebook.com/Hitsloop"><span class='icon facebook'></span>
+</a></li>
+                    <li>
+                        <a title="Google+" target="_blank" href="https://plus.google.com/+Hitsloop-Traffic-Exchange"><span class='icon google'></span>
+</a></li>
+                </ul>
+            </div>
+            <div class='copyright clearfix'>&copy; 2016 Hitsloop Ltd</div>
+        </div>
+    </footer>
+
+
+</template>

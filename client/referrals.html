@@ -1,134 +1,179 @@
 <template name="referrals">
     <div class='main-content'>
-<div class='container'>
-<noscript>
-<div class='main-content-content clearfix'>
-<div class='message_container clearfix error'>
-<div class='message_toggle'>
-<h3>
+        <div class='container'>
+            <noscript>
+                <div class='main-content-content clearfix'>
+                    <div class='message_container clearfix error'>
+                        <div class='message_toggle'>
+                            <h3>
 <span class='icon'></span>
 JavaScript is disabled in your browser.
 Please enable JavaScript to use HitLeap.
 </h3>
-</div>
-</div>
-</div>
-</noscript>
-
-
-<header class='main_content_header'>
-<h1>Referrals</h1>
-</header>
-<div class='main-content-content clearfix'>
-<div class='row_100 first clearfix'>
-<div class='row_33 box left'>
-<h3>Commissions from referrals</h3>
-<ul class='commissions_list'>
-<li>
-<span class='value'>50</span>
-<span class='title'>Minutes per referral</span>
-</li>
-<!--<li>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
+            <header class='main_content_header'>
+                <h1>Referrals</h1>
+            </header>
+            <div class='main-content-content clearfix'>
+                <div class='row_100 first clearfix'>
+                    {{>isVerified}}
+                    <div class='row_33 box left'>
+                        <h3>Commissions from referrals</h3>
+                        <ul class='commissions_list'>
+                            <li>
+                                <span class='value'>$0.05</span>
+                                <span class='title'>Cash per referral</span>
+                            </li>
+                            <!--<li>
 <span class='value'>20%</span>
 <span class='title'>Cash commissions</span>
 </li>-->
-<li class='last'>
-<a href="/premium">View available account types.</a>
-</li>
-</ul>
-</div>
-<div class='row_33 box'>
-<h3>Referral statistics</h3>
-<ul class='referral_statistics_list'>
-<li>
-<span class='title'>Total referrals:</span>
-<span class='value'>0</span>
-</li>
-<li>
-<span class='title'>Total Minutes earned:</span>
-<span class='value'>0</span>
-</li>
-<li class='last'>
+                            <li class='last'>
+                                <a href="/buy">Upgrade.</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class='row_33 box'>
+                        <h3>Referral statistics</h3>
+                        <ul class='referral_statistics_list'>
+                            <ul class='cash'>
+                                <li>
+                                    <span class='big'>{{totalCash}}</span>
+                                    <span class='small'>$</span>
+                                </li>
+                                <!-- <li class='last'>
+
+</li> -->
+                            </ul>
+                            <li>
+                                <span class='title'>Total referrals:</span>
+                                <span class='value'>{{totalRefs}}</span>
+                            </li>
+                            <li>
+                                <span class='title'>Total Cash earned:</span>
+                                <span class='value'>{{totalCash}}</span>
+                                <a class="ui positive fluid button" id="withdrawModalBtn">CashOut</a>
+                                <div class="ui green segment" style="display:none;" id="cashoutForm">
+                <div class="ui header">Request Cashout</div>
+                <p>Minimum Withdrawal is $20 </p>
+                <p></p>
+                
+                    
+                        <div class="ui right labeled input">
+                            <div class="ui label">$</div>
+                            <input type="text" placeholder="Amount" id="withdrawAmount">
+                            <div class="ui basic label">.00</div>
+                        </div>
+                   
+                
+                      <button type="button" class="ui positive button" id="cashoutBtn">Withdraw</button>
+                 
+            </div>
+                            </li>
+                            <!--<li class='last'>
 <span class='title'>Total cash earned:</span>
 <span class='value'>0.00 €</span>
-</li>
-</ul>
-</div>
-<div class='row_33 box'>
-<h3>Cash:</h3>
-<ul class='cash'>
-<li>
-<span class='big'>0.00</span>
-<span class='small'>€</span>
-</li>
-<li class='last'>
-<a class="button" href="/withdraw">Request Payout</a>
-</li>
-</ul>
-</div>
-</div>
-<div class='row_100 box clearfix'>
-<h3>Refer people by giving them the following links</h3>
-<div class='row_50 left referral clearfix'>
-<p class='title'><a target="_blank" href="https://hitleap.com/by/nihal007k">https://hitleap.com/by/nihal007k</a></p>
-<p class='image'><a target="_blank" href="https://hitleap.com/by/nihal007k"><img alt="Get Traffic" src="https://hitleap.com/assets/banner-241ef1f2c690b6812aeeff6c0fb91f39ffc8a214c0b2c6c11d8a96f7c98b8fab.png" width="468" height="60" /></a></p>
-</div>
-<div class='row_50 clearfix'>
-<form class='referrals'>
-<label form='website-link'>Website link:</label>
-<input class='input' id='website-link' name='website-link' type='text' value='<a rel="external" href="https://hitleap.com/by/nihal007k">HitLeap - Get Traffic</a>'>
-<label form='banner-link'>Banner link:</label>
-<input class='input' id='banner-link' name='banner-link' type='text' value=''>
-</form>
-</div>
-</div>
-<div class='row_100 clearfix'>
-<div class='table_container'>
-<table class='table referrals'>
-<thead>
-<tr>
-<th>Username</th>
-<th>Joined at</th>
-<th>Minutes</th>
-<th>Cash</th>
-<th>Came from</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan='5' style='text-align: center;'>
+</li>-->
+                        </ul>
+                    </div>
+                    <div class='row_33 box'>
+                        <h3>Share your referral link:</h3>
+                        <!-- Buttons start here. Copy this ul to your document. -->
+                        <button class='sharer ui circular twitter icon button' data-sharer='twitter' data-title='GET FREE QUALITY VIEWS' data-url='{{myRefLink}}'>
+                            <i class="twitter icon"></i>
+                        </button>
+                        <button class='sharer ui circular facebook icon button' data-sharer='facebook' data-url='{{myRefLink}}'>
+                            <i class="facebook icon"></i>
+                        </button>
+                        <button class='sharer ui circular google plus icon button' data-sharer='googleplus' data-url='{{myRefLink}}'>
+                            <i class="google plus icon"></i>
+                        </button>
+                        <!-- Buttons end here -->
+                    </div>
+                </div>
+                <div class='row_100 box clearfix'>
+                    <h3>Refer people by giving them the following links</h3>
+                    <div class='row_50 left referral clearfix'>
+                        <p class='title'><a target="_blank" href="{{site}}/ref/{{currentUser.username}}">{{site}}/ref/{{currentUser.username}}</a></p>
+                        <p class='image'>
+                            <a target="_blank" href="{{site}}/ref/{{currentUser.username}}"><img alt="Get Traffic" src="{{site}}/images/banner.png" width="468" height="60" /></a>
+                        </p>
+                    </div>
+                    <div class='row_50 clearfix'>
+                        <form class='referrals'>
+                            <label form='website-link'>Website link:</label>
+                            <input class='input' id='website-link' name='website-link' type='text' value='<a rel="external" href="https://hitsloop.com/ref/{{currentUser.username}}">HitsLoop - Get Traffic</a>'>
+                            <label form='banner-link'>Banner link:</label>
+                            <input class='input' id='banner-link' name='banner-link' type='text' value='<a target="_blank" href="{{site}}/ref/{{currentUser.username}}"><img alt="Get Free Traffic" src="{{site}}/images/banner.png" width="468" height="60"></a>'>
+                        </form>
+                    </div>
+                </div>
+                <div class='row_100 clearfix'>
+                    <div class='table_container'>
+                        <table class='table referrals'>
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Joined at</th>
+                                    <th>Minutes</th>
+                                    <!--<th>Cash</th>-->
+                                    <!--<th>Came from</th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#if referrals}} {{#each ref in referrals}}
+                                <tr>
+                                    <td>
+                                        {{ref.username}}
+                                    </td>
+                                    <td>
+                                        {{fromNow ref.createdAt}}
+                                    </td>
+                                    <td>
+                                        {{ref.profile.minutes}}
+                                    </td>
+                                </tr>
+                                <!--<tr>
+    {{ref.username}}
+</tr>-->
+                                {{/each}}
+                                <!--{{else}}
+   <td colspan='5' style='text-align: center;'>
 <p>Your referrals will be displayed here.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<div class='row_100 clearfix'></div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-
-<footer class="main_footer clearfix"><div class='container clearfix'>
-<div class='links clearfix'>
-<ul class='about'>
-<li><a href="/about">About us</a></li>
-<li><a href="/terms">Terms of service</a></li>
-</ul>
-<ul class='social'>
-<li>
-<a title="Twitter" target="_blank" href="https://twitter.com/hitleap"><span class='icon twitter'></span>
+</td>-->
+                                {{/if}}
+                            </tbody>
+                        </table>
+                        <div class='row_100 clearfix'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="main_footer clearfix">
+        <div class='container clearfix'>
+            <div class='links clearfix'>
+                <ul class='about'>
+                    <li><a href="/about">About us</a></li>
+                    <li><a href="/terms">Terms of service</a></li>
+                </ul>
+                <ul class='social'>
+                    <li>
+                        <a title="Twitter" target="_blank" href="https://twitter.com/hitleap"><span class='icon twitter'></span>
 </a></li>
-<li>
-<a title="Facebook" target="_blank" href="https://www.facebook.com/hitleap"><span class='icon facebook'></span>
+                    <li>
+                        <a title="Facebook" target="_blank" href="https://www.facebook.com/hitleap"><span class='icon facebook'></span>
 </a></li>
-<li>
-<a title="Google+" target="_blank" href="https://plus.google.com/+Hitleap-Traffic-Exchange"><span class='icon google'></span>
+                    <li>
+                        <a title="Google+" target="_blank" href="https://plus.google.com/+Hitleap-Traffic-Exchange"><span class='icon google'></span>
 </a></li>
-</ul>
-</div>
-<div class='copyright clearfix'>&copy; 2016 HitLeap Ltd</div>
-</div>
-</footer>
+                </ul>
+            </div>
+            <div class='copyright clearfix'>&copy; 2016 HitLeap Ltd</div>
+        </div>
+    </footer>
 </template>
+
